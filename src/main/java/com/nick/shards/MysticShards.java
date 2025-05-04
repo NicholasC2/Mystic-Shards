@@ -41,6 +41,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class MysticShards extends JavaPlugin implements Listener {
     public HashMap<String,MysticShard> shards = new HashMap<String,MysticShard>();
+
+    public double fire_aspect_chance = 0.2;
+
     @Override
     public void onEnable() {
         initShards();
@@ -226,16 +229,21 @@ public class MysticShards extends JavaPlugin implements Listener {
     }
 
     public void update_offhand(Player player) {
+        PersistentDataContainer player_data = player.getPersistentDataContainer();
+        NamespacedKey fireKey = new NamespacedKey("shards", "fire_aspect_chance");
+        if (player_data.get(fireKey, PersistentDataType.DOUBLE) == fire_aspect_chance) {
+            player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+            player_data.set(fireKey, PersistentDataType.DOUBLE, fire_aspect_chance);
+        }
         if(player.getInventory().getItemInOffHand() != null) {
             if(player.getInventory().getItemInOffHand().getItemMeta() != null) {
-                PersistentDataContainer player_data = player.getPersistentDataContainer();
                 if(is_shard(player, player.getInventory().getItemInOffHand())) {
                     shards.forEach((name,shard)->{
                         switch (player.getInventory().getItemInOffHand().getItemMeta().getItemName().toLowerCase()) {
                             case "blaze":
                                 if(is_shard(player, player.getInventory().getItemInOffHand())) {
                                     player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, PotionEffect.INFINITE_DURATION, 0));
-                                    player_data.set(new NamespacedKey("shards","fire_aspect_chance"), PersistentDataType.DOUBLE, 0.2);
+                                    player_data.set(fireKey, PersistentDataType.DOUBLE, 0.2);
                                 }
                                 break;
                         
