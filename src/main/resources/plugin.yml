@@ -5,6 +5,6 @@ main: com.nick.shards.MysticShards
 
 commands:
   shards:
-    description: shard command for messing with shard stuff
+    description: Base command for Mystic Shards
     permission: shards.commands.shards
-    usage: /shards set <player> <shard>
+    usage: /shards <operation> <player> <shard>
