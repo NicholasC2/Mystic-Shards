@@ -10,6 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.md_5.bungee.api.ChatColor;
 
 public class MysticShard {
+
     public String name;
     public List<String> description;
     public ItemStack item;
@@ -17,44 +18,48 @@ public class MysticShard {
     public MysticShard(String name, List<String> description, int customModel) {
         this.name = name;
 
-        List<String> fixedDesc = new ArrayList<String>();
-        description.forEach(desc->{
-            fixedDesc.add(ChatColor.RESET+desc);
+        List<String> fixedDesc = new ArrayList<>();
+        description.forEach(desc -> {
+            fixedDesc.add(ChatColor.RESET + desc);
         });
-        fixedDesc.add(ChatColor.RED+"Non-Upgraded");
+        fixedDesc.add(ChatColor.RED + "Non-Upgraded");
 
         this.description = description;
 
-        ItemStack item = new ItemStack(Material.NETHER_STAR);
-        ItemMeta meta = item.getItemMeta();
-        meta.setItemName(name);
-        meta.setDisplayName(ChatColor.RESET+name.replace("_", " ")+" Shard");
-        meta.setLore(fixedDesc);
-        meta.setCustomModelData(customModel);
-        item.setItemMeta(meta);
+        ItemStack newItem = new ItemStack(Material.NETHER_STAR);
+        ItemMeta meta = newItem.getItemMeta();
+        if (meta != null) {
+            meta.setItemName(name);
+            meta.setDisplayName(ChatColor.RESET + name.replace("_", " ") + " Shard");
+            meta.setLore(fixedDesc);
+            meta.setCustomModelData(customModel);
+            item.setItemMeta(meta);
+        }
 
-        this.item = item;
+        this.item = newItem;
     }
 
     public ItemStack upgrade_item() {
-        List<String> fixedDesc = new ArrayList<String>();
-        description.forEach(desc->{
-            fixedDesc.add(ChatColor.RESET+desc);
+        List<String> fixedDesc = new ArrayList<>();
+        description.forEach(desc -> {
+            fixedDesc.add(ChatColor.RESET + desc);
         });
-        fixedDesc.add(ChatColor.GREEN+"Upgraded");
+        fixedDesc.add(ChatColor.GREEN + "Upgraded");
 
-        ItemStack item = new ItemStack(Material.NETHER_STAR);
-        ItemMeta meta = item.getItemMeta();
-        meta.setItemName(name);
-        meta.setDisplayName(ChatColor.RESET+name.replace("_", " ")+" Shard");
-        meta.setLore(fixedDesc);
-        item.setItemMeta(meta);
+        ItemStack newItem = new ItemStack(Material.NETHER_STAR);
+        ItemMeta meta = newItem.getItemMeta();
+        if (meta != null) {
+            meta.setItemName(name);
+            meta.setDisplayName(ChatColor.RESET + name.replace("_", " ") + " Shard");
+            meta.setLore(fixedDesc);
+            newItem.setItemMeta(meta);
+        }
 
-        return item;
+        return newItem;
     }
 
     @Override
     public String toString() {
-        return this.name+":"+this.description;
+        return this.name + ":" + this.description;
     }
 }
